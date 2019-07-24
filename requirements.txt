@@ -1,0 +1,10 @@
+Hypercorn
+asyncio
+aiohttp
+# aiomysql
+quart
+ujson
+# telethon
+# emoji
+aiogram
+uvloop
