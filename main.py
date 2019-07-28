@@ -17,8 +17,9 @@ import ujson
 async def shutdown(app):
     if app["session"] is not None:
         await app["session"].close()
-    if app["conn"] is not None:
-        app["conn"].close()        
+    if app.pool is not None:
+        app.pool.close()
+        await app.pool.wait_closed()
     await app.shutdown()
 
 
@@ -30,8 +31,9 @@ async def init(loop):
     app["cfg"] = cfg
     app["session"] = ClientSession(loop=loop, json_serialize=ujson.dumps)  # TODO: можно полностью поместить только в телебота
     app.telebot = Telebot(cfg.URL, app["session"])
-    app["conn"] = await aiomysql.connect(
-        host=app["cfg"].MYSQL_HOST, port=app["cfg"].MYSQL_PORT,
+    app.pool = await aiomysql.create_pool(
+        host=app["cfg"].MYSQL_HOST, 
+        port=app["cfg"].MYSQL_PORT,
         user=app["cfg"].MYSQL_USER, password=app["cfg"].MYSQL_PASS,
         db=app["cfg"].MYSQL_DBNM, loop=app["loop"], autocommit=True
     )

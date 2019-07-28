@@ -10,6 +10,33 @@ class User:
                 continue
             setattr(self, k, v) 
 
+class UserTele:
+    def __init__(self, r: dict):
+        assert "id" in r 
+        assert type(r["id"]) == int
+        assert r["id"] > 0
+        assert "is_bot" in r
+        # assert "language_code" in r
+        self.id = r["id"]
+        self.first_name = r.get("first_name", "")
+        self.last_name = r.get("last_name", "")
+        self.language_code = r.get("language_code", "ru")
+        self.is_bot = r.get("is_bot", False)
+        self.full_name = f"{self.first_name} {self.last_name}".strip()
+        if self.full_name == "":
+            self.full_name = "Боец"
+
+class GroupChatTele:            
+    def __init__(self, r: dict):
+        assert "id" in r 
+        assert type(r["id"]) == int
+        assert r["id"] < 0
+        assert "type" in r and r["type"] == "group"
+        # assert "language_code" in r
+        self.id = r["id"]
+        self.title = r["title"]        
+
+
 
 class Message:
     def __init__(self, d: dict):

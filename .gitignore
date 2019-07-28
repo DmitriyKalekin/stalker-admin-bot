@@ -2,6 +2,8 @@
 __pycache__/
 __creds__/
 __trash__/
+img/
+*.code-workspace
 *.py[cod]
 *$py.class
 

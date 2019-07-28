@@ -1,5 +1,5 @@
 import os
-from __private__.telegram_key import CFG_TELEGRAM_KEY
+from __creds__.telegram_key import CFG_TELEGRAM_KEY
 
 
 class Config:

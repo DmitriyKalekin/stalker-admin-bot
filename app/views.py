@@ -61,7 +61,7 @@ async def run_wh(request):
         return web.json_response({"status": 200, "details": "no_message"})
     if "chat" not in r["message"]:
         return web.json_response({"status": 200, "details": "no_chat"})    
-    await ctl.process_command(request.app, r)
+    await ctl.process(request.app, r)
     return web.json_response({"status": 200, "details": "ok"})  
 
     # if "message" in r:
@@ -103,16 +103,16 @@ async def run_wh(request):
 
 
 async def set_wh(request):
-    res = await request.app["telebot"].setWebhook(request.app["cfg"].WH_URL)
+    res = await request.app.telebot.setWebhook(request.app["cfg"].WH_URL)
     return web.json_response(res)
 
 
 async def get_wh(request):
-    return web.json_response(await request.app["telebot"].getWebhookInfo())
+    return web.json_response(await request.app.telebot.getWebhookInfo())
 
 
 async def del_wh(request):
-    return web.json_response(await request.app["telebot"].deleteWebhook())
+    return web.json_response(await request.app.telebot.deleteWebhook())
 
 
 async def start_job(request):
